@@ -1,0 +1,12 @@
+How to run the project?
+
+1. Spin of a t3.medium EC2 instance with UBUNTU 22 AMI in AWS, Allow SSH(From my IP) and HTTP and HTTPS from anywhere.
+2. SSH into the instance as sudo user.
+3. Run -> git clone https://github.com/Kratos-89/EmartApp.git
+4. Copy the contents in the "intDockerAndCompose.txt" file in the current directory(It installs docker engine and docker compose) into script.sh and run -> "sh script.sh".
+5. cd EmartApp/
+6. Run -> "docker-compose build"  #This will take 5 to 7 minutes.
+7. Run -> "docker-compose up -d"  #-d is make the process run in the background.
+8. Open browser and type -> "http://ec2-instance-ip:80"
+9. After testing the application -> docker-compose down.
+10. Logout and Terminate the instance.
