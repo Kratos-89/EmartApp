@@ -8,36 +8,41 @@ services:
       - "4200:4200"
     container_name: client
     depends_on:
-      - api
-      - webapi
+      - emartapi
+      - booksapi
 
-  api:
+  emartapi: #EMART API
     build:
       context: ./nodeapi
     ports:
       - "5000:5000"
-    restart: always
-    container_name: api
+    restart: always #This is because of incase of any other dependent conatiner failuers. At that time the serivce restarts giving time to it's dependent containers to start. This rule applys to the below containers as well.
+    container_name: emartapi
     depends_on:
       - nginx
       - emongo
 
-  webapi:
+  booksapi:
     build:
       context: ./javaapi
     ports:
+      #Here the first 9000 is the host machine's port and the second 9000 is the container's port.
       - "9000:9000"
     restart: always
-    container_name: webapi
+    container_name: booksapi
     depends_on:
       - emartdb
+      - nginx
 
   nginx:
     restart: always
     image: nginx:latest
     container_name: nginx
     volumes:
+      # Here the default nginx configuration from the nginx directory is mounted as a volume to the nginx container(Api Gateway)
       - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
+    # command: ["nginx-debug", "-g", "daemon off;"]
+    # The above command is used for debugging purpose. It makes the process to run in the foreground and provides detailed logs.
     ports:
       - "80:80"
 
@@ -46,6 +51,7 @@ services:
     container_name: emongo
     environment:
       - MONGO_INITDB_DATABASE=epoc
+      #This initializes a database named epoc when the container starts for the first time.
     ports:
       - "27017:27017"
 
