@@ -1,8 +1,8 @@
-FROM openjdk:8 as BUILD_IMAGE
+FROM openjdk:8 AS BUILD_IMAGE
 WORKDIR /usr/src/app/
 RUN apt update -y && apt install maven -y
 COPY ./ /usr/src/app/
-RUN maven install -DskipTests
+RUN mvn install -DskipTests
 
 
 FROM openjdk:8 
